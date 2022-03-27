@@ -1,0 +1,196 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+{{ group.title }}
+{% endblock %}
+
+{% block sidebar %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'main/css/sidebar.css' %}">
+<div class="sidebar">
+    <a href="{% url 'home' %}">
+        <div class="logo_content">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <div class="logo_name">CheckUp</div>
+            </div>
+        </div>
+    </a>
+    <ul class="nav_list">
+        <li>
+            <a href="{% url 'groups' %}">
+                <i class="fas fa-users"></i>
+                <span class="links_name">Группы</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ group.get_absolute_url }}">
+                <i class="fas fa-users"></i>
+                <span class="links_name">Список учеников</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ group.get_absolute_url }}/works">
+                <i class="fas fa-file"></i>
+                <span class="links_name">Работы</span>
+            </a>
+        </li>
+    </ul>
+    <a href="{% url 'home' %}">
+        <div class="profile_content">
+            <div class="profile">
+                <div class="profile_details">
+                    <i class="fas fa-user"></i>
+                    <div class="name_job">
+                        <div class="name">{{ user.last_name }} {{ user.first_name|first }}.</div>
+                        <div class="job">{{ user.profile.status }}</div>
+                    </div>
+                </div>
+                <object type="logout">
+                    <a class="bx bx-log-out" id="log_out" href="{% url 'logout' %}"></a>
+                </object>
+            </div>
+        </div>
+    </a>
+</div>
+{% endblock %}
+
+
+{% block content %}
+    {% load static %}
+    {% load works_extras %}
+    <link rel="stylesheet" href="{% static 'works/css/works.css'%}">
+    <header>
+        {% for message in messages %}
+            <p class="messages">{{message}}</p>
+        {% endfor %}
+        <a class="back-btn" href="{% url 'group' id=group.id %}">
+            <i class="fas fa-arrow-left"></i>
+            <div class="get-back">Назад</div>
+        </a>
+        <div class="empty"></div>
+        <div class="works-title">Работы</div>
+        {% if user.profile.status.id == 2 %}
+            <a class="add-work" href="{% url 'add_work' id=group.id %}">
+                <button class="button-submit add-work-btn">Добавить работу</button>
+            </a>
+        {% else %}
+            <div class="add-work"></div>
+        {% endif %}
+    </header>
+    <div class="works-container">
+        {% if works_count == 0 %}
+            <div class="no-works-error">
+                <div><p>В этой группе нет загруженных работ</p></div>
+            </div>
+        {% endif %}
+        {% for work in works %}
+            <div class="component mt-2">
+                <div class="content">
+                    <div class="work-title">
+                        <div class="work-title-1">{{ work.Title }}</div>
+                        <div class="work-title-2">Предмет: {{ work.subject }}</div>
+                    </div>
+                    <div class="date">
+                        <div class="char">Сделать до:</div>
+                        <div class="to-date">{{ work.toDate }}</div>
+                    </div>
+                    <div class="more">
+                        <button class="button-submit more-btn show-btn" value="Подробнее">Подробнее</button>
+                    </div>
+                </div>
+                {% if user.profile.status.id == 1 %}
+                <div class="info st">
+                    <div class="btn-upd-content">
+                        {% if not work.file_set|object_exist:user %}
+                            {% if work.toDate|dates %}
+                                <button class="button-upload time-over">Время отправки истекло</button>
+                            {% else %}
+                                <a href="{% url 'add_file' id=group.id work_id=work.id %}">
+                                    <button class="button-upload">Загрузить свою работу</button>
+                                </a>
+                            {% endif %}
+                        {% else %}
+                            <button class="button-upload uploaded">Работа отправлена</button>
+                        {% endif %}
+                    </div>
+                    {% with user_file=work.file_set|get_object:user %}
+                        <a class="btn-dld-content" href="{{ work.work_file.url }}" download>
+                            <button class="button-download">Скачать работу</button>
+                        </a>
+                    {% endwith %}
+                    <div class="mark">
+                        {% if work.file_set|object_exist:user %}
+                            {% with user_file=work.file_set|get_object:user %}
+                                {% if user_file.mark %}
+                                <span>Оценка:</span>
+                                <div>{{ user_file.mark }}</div>
+                                {% endif %}
+                            {% endwith %}
+                        {% endif %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="info teach">
+                    <div class="table-head">
+                        <div class="last-first-name-head">Фамилия Имя</div>
+                        <div class="date-of-sending-head">Дата отправки</div>
+                        <div class="mark-head"></div>
+                        <div class="check-work-head"></div>
+                        <div class="work-head">Работа</div>
+                    </div>
+                    <div class="table-body">
+                        {% for user_file in work.file_set.all %}
+                            <div class="user-files-data">
+                                <div class="last-first-name">{{ user_file.user.last_name }} {{ user_file.user.first_name|first }}.</div>
+                                <div class="date-of-sending">{{ user_file.date }}</div>
+                                <div class="mark-container">
+                                    {% if user_file.mark %}
+                                        <div class="mark">{{ user_file.mark }}</div>
+                                    {% else %}
+                                        <div></div>
+                                    {% endif %}
+                                </div>
+                                <div class="check-work">
+                                    <a class="add-work" href="{% url 'check_work' id=group.id work_id=work.id file_id=user_file.id %}">
+                                        {% if user_file.mark %}
+                                            <button class="button-download teacher recheck-work">
+                                                Изменить оценку
+                                            </button>
+                                        {% else %}
+                                            <button class="button-download teacher check-work">
+                                                Оценить работу
+                                            </button>
+                                        {% endif %}
+                                    </a>
+                                </div>
+                                <div class="work">
+                                    <a href="{{ user_file.file.url }}" download><button class="button-download teacher">Скачать работу</button></a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {% load works_extras %}
+                        {% for profile in users_group|exclude:work.file_set.all %}
+                        <div class="group-users">
+                            <div class="last-first-name">{{ profile.user.last_name }} {{ profile.user.first_name|first }}.</div>
+                            <div class="date-of-sending"></div>
+                            <div class="mark-container"></div>
+                            <div class="check-work">
+                                <button class="button-download teacher not-upld">Не отправлена</button>
+                            </div>
+                            <div class="work"></div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {% load static %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="{% static 'works/js/works.js' %}"></script>
+{% endblock %}

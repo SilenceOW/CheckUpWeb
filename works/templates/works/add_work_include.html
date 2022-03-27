@@ -1,0 +1,26 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'works/css/add_work.css' %}">
+<div class="form-content">
+    <form action="{% url 'add_work' id=group.id %}" method="post">
+        {% csrf_token %}
+        <div class="subject mt-4">
+            <label for="id_subject" class="mb-2">Предмет</label>
+            {{ form.subject }}
+        </div>
+        <div class="Title mt-4">
+            <label for="id_Title" class="mb-2">Тип работы</label>
+            {{ form.Title }}
+        </div>
+        <div class="toDate mt-4">
+            <label for="id_toDate" class="mb-2">Срок сдачи</label>
+            {{ form.toDate }}
+        </div>
+        <div class="work_file mt-4">
+            <label for="id_work_file" class="mb-2">Загрузите файл работы</label>
+            {{ form.work_file }}
+        </div>
+        <div class="panel pink mt-4">
+            <button>submit</button>
+        </div>
+    </form>
+</div>

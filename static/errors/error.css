@@ -1,0 +1,15 @@
+div.error {
+    background: #EBE6F1;
+    opacity: 0.9;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    width: 50%;
+    height: 200px;
+    font-size: 24px;
+    position: absolute;
+    left: 25%;
+    top: 10%
+}

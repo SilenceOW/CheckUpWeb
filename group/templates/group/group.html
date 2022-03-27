@@ -1,0 +1,115 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+{{ group.title }}
+{% endblock %}
+
+{% block sidebar %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'main/css/sidebar.css' %}">
+<div class="sidebar">
+    <a href="{% url 'home' %}">
+        <div class="logo_content">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <div class="logo_name">CheckUp</div>
+            </div>
+        </div>
+    </a>
+
+    <ul class="nav_list">
+        <li>
+            <a href="{% url 'groups' %}">
+                <i class="fas fa-users"></i>
+                <span class="links_name">Группы</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ group.get_absolute_url }}">
+                <i class="fas fa-users"></i>
+                <span class="links_name">Список учеников</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ group.get_absolute_url }}/works">
+                <i class="fas fa-file"></i>
+                <span class="links_name">Работы</span>
+            </a>
+        </li>
+    </ul>
+    <a href="{% url 'home' %}">
+        <div class="profile_content">
+            <div class="profile">
+                <div class="profile_details">
+                    <i class="fas fa-user"></i>
+                    <div class="name_job">
+                        <div class="name">{{ user.last_name }} {{ user.first_name|first }}.</div>
+                        <div class="job">{{ user.profile.status }}</div>
+                    </div>
+                </div>
+                <object type="logout">
+                    <a class="bx bx-log-out" id="log_out" href="{% url 'logout' %}"></a>
+                </object>
+            </div>
+        </div>
+    </a>
+</div>
+{% endblock %}
+
+
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'group/css/group.css' %}">
+    <div class="group-title">
+        {{ group.title }}
+    </div>
+    {% for message in messages %}
+        <p class="messages">{{message}}</p>
+    {% endfor %}
+    <div class="main-component">
+        <div class="extra">
+
+            <div class="users-container">
+                <div class="user">
+                    <div class="group-name-creator">{{ group.creator.last_name }} {{ group.creator.first_name|first }}.</div>
+                    <div class="age-creator">{{ group.creator.profile.status.title }}</div>
+                    <div class="creator-check creator"><i class='bx bxs-star'></i></div>
+                </div>
+                {% for profile in users %}
+                    <div class="user non-creator">
+                        <div class="group-name">{{ profile.user.last_name }} {{ profile.user.first_name|first }}.</div>
+                        <div class="age">{{ profile.status.title }}</div>
+                        {% if user.id == group.creator.id %}
+                            <form action="{% url 'kick' id=group.id pk=profile.user.pk%}" class="kick-user">
+                                {% csrf_token %}
+                                <button type="submit" class="button-submit kick-btn" style="opacity: 0"><i class='bx bx-x'></i></button>
+                            </form>
+                        {% else %}
+                            <div class="creator-check"></div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+         </div>
+    </div>
+    {% if user.id == group.creator.id %}
+        <form method="post" class="form">
+            {% csrf_token %}
+            <div class="group">
+                {{ form.username }}
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>Имя пользователя</label>
+                {{ form.errors.username }}
+            </div>
+            <button class="button-submit" type="submit">Добавить в группу</button>
+        </form>
+    {% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+    {% load static %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="{% static 'group/js/group.js' %}"></script>
+{% endblock %}

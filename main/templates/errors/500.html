@@ -1,0 +1,10 @@
+{% include 'main/layout.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'errors/error.css' %}">
+<div class="error">
+    <p>Ошибка 500</p>
+    <p>Попробуйте зайти на наш сайт позже</p>
+</div>
+{% endblock %}

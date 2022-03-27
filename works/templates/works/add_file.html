@@ -1,0 +1,81 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    Добавление работы
+{% endblock %}
+
+{% block sidebar %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'main/css/sidebar.css' %}">
+<div class="sidebar">
+    <a href="{% url 'home' %}">
+        <div class="logo_content">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <div class="logo_name">CheckUp</div>
+            </div>
+        </div>
+    </a>
+    <ul class="nav_list">
+        <li>
+            <a href="{% url 'groups' %}">
+                <i class="fas fa-users"></i>
+                <span class="links_name">Группы</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ group.get_absolute_url }}">
+                <i class="fas fa-users"></i>
+                <span class="links_name">Список учеников</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ group.get_absolute_url }}/works">
+                <i class="fas fa-file"></i>
+                <span class="links_name">Работы</span>
+            </a>
+        </li>
+    </ul>
+    <a href="{% url 'home' %}">
+        <div class="profile_content">
+            <div class="profile">
+                <div class="profile_details">
+                    <i class="fas fa-user"></i>
+                    <div class="name_job">
+                        <div class="name">{{ user.last_name }} {{ user.first_name|first }}.</div>
+                        <div class="job">{{ user.profile.status }}</div>
+                    </div>
+                </div>
+                <object type="logout">
+                    <a class="bx bx-log-out" id="log_out" href="{% url 'logout' %}"></a>
+                </object>
+            </div>
+        </div>
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'works/css/add_work.css' %}">
+    <a class="back-btn" href="{% url 'works' id=group.id %}">
+        <i class="fas fa-arrow-left"></i>
+        <div class="get-back">Назад</div>
+    </a>
+    <div class="form-content">
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-title">Добавить работу</div>
+            {% csrf_token %}
+            <div>
+                {{ form.user }}
+                {{ form.work }}
+                <div class="upload-file">
+                    {{ form.file }}
+                </div>
+                <div class="panel pink mt-4">
+                    <button>Добавить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

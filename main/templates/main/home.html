@@ -1,0 +1,66 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    Главная страница
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+{% load static %}
+{% load main_extras %}
+<link rel="stylesheet" href="{% static 'main/css/home.css' %}">
+<div class="page-name">
+    {% if user.profile.status.id == 1 %}
+    <div>Неотправленные работы</div>
+    {% else %}
+    <div>Ваши работы</div>
+    {% endif %}
+</div>
+<div class="content">
+    {% if user.profile.status.id == 1 %}
+        <div class="student-content">
+            <div class="new-works"></div>
+            {% for group in user.profile.groups.all %}
+                {% for work in group.work_set.all %}
+                    {% if not work.file_set|get_object:user %}
+                        {% if not work.toDate|dates %}
+                            <div class="work-container">
+                            <div class="work-group">{{ work.in_group }}</div>
+                            <div class="work-title-subject">{{ work.Title }} по предмету {{ work.subject }}</div>
+                            <div class="work-todate">{{ work.toDate }}</div>
+                            <a href="{% url 'works' id=work.in_group.id %}" class="get-to-group">
+                                <button class="get-to-group-button">Перейти</button>
+                            </a>
+                        </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="student-content">
+            <div class="new-works"></div>
+            {% for group in user.profile.groups.all %}
+                {% for work in group.work_set|get_objects:user %}
+                        {% if not work.toDate|dates %}
+                            <div class="work-container">
+                            <div class="work-group">{{ work.in_group }}</div>
+                            <div class="work-title-subject">{{ work.Title }} по предмету {{ work.subject }}</div>
+                            <div class="work-todate">{{ work.toDate }}</div>
+                            <a href="{% url 'works' id=work.in_group.id %}" class="get-to-group">
+                                <button class="get-to-group-button">Перейти</button>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if user.profile.status.id == 2 %}
+        <div class="teacher-content"></div>
+    {% endif %}
+</div>
+{% endblock %}

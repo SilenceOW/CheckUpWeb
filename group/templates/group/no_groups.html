@@ -1,0 +1,30 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    Группы
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'group/sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'group/css/no-groups.css' %}">
+    {% if user.profile.status.id == 2 %}
+        <form method="post" class="form">
+            {% csrf_token %}
+            <div class="group">
+                {{ form.title }}
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>Название группы</label>
+            </div>
+            <button class="button-submit" type="submit">Создать группу</button>
+        </form>
+    {% endif %}
+    <div class="no-groups-error">
+        <div>Вы не состоите в группе</div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,155 @@
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.form-content {
+    width: 100%;
+    height: 100%;
+    padding: 5% 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-content form{
+    width: auto;
+    min-width: 360px;
+    height: auto;
+    padding:  2% 5%;
+    background: rgb(223,223,223,0.9);
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.form-content form .form-title {
+    align-self: center;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+
+button {
+    color: #454545;
+    background: transparent;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #454545;
+    position: relative;
+    margin: 1em;
+    width: 60%;
+    display: inline-block;
+    padding: 0.5em 1em;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+    font-weight: bold
+}
+
+button:before, button:after {
+    content: '';
+    display: block;
+    position: absolute;
+    border-color: #454545;
+    box-sizing: border-box;
+    border-style: solid;
+    width: 1em;
+    height: 1em;
+    transition: all 0.3s ease-in-out
+}
+
+button:before {
+    top: -6px;
+    left: -6px;
+    border-width: 2px 0 0 2px;
+    z-index: 5;
+}
+
+button:after {
+    bottom: -6px;
+    right: -6px;
+    border-width: 0 2px 2px 0;
+}
+
+button:hover:before, button:hover:after {
+    width: calc(100% + 12px);
+    height: calc(100% + 12px);
+    border-color: #fff
+}
+
+button:hover {
+    color: #353535;
+    background-color: #fff;
+    border-color: #fff
+}
+
+.panel {
+    max-width: 960px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.pink button {
+    color: #9370DB;
+    border-color: #9370DB;
+}
+
+.pink button:before, .pink button:after  {
+    border-color: #9370DB;
+}
+
+.pink button:hover:before, .pink button:hover:after {
+    border-color: #9370DB;
+}
+
+.pink button:hover {
+    color: #fff;
+    background-color: #9370DB;
+    border-color: #9370DB;
+}
+
+.pink .panel {
+    max-width: 960px;
+    text-align: center;
+    position: relative;
+    margin: auto;
+}
+
+.back-btn {
+    position: absolute;
+    left: 30px;
+    top: 50px;
+    display: flex;
+    background-color: #fff;
+    color: #1b1b1b;
+    opacity: 0.8;
+    width: 150px;
+    align-items: center;
+    border-radius: 100px;
+    padding: 0 10px 0 20px;
+    height: 40px;
+    transition: 0.2s opacity;
+}
+
+.back-btn:hover {
+    color: black;
+    opacity: 1;
+}
+
+.back-btn i {
+    width: 30px;
+}
+
+.back-btn div {
+    width: 90px;
+    display: flex;
+    font-size: 20px;
+}

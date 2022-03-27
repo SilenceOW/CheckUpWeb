@@ -1,0 +1,59 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    Группы
+{% endblock %}
+
+{% block sidebar %}
+{% load static %}
+    {% include 'group/sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'group/css/groups.css' %}">
+    {% if user.profile.status.id == 2 %}
+        <form method="post" class="form">
+            {% csrf_token %}
+            <div class="group">
+                {{ form.title }}
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>Название группы</label>
+            </div>
+            <button class="button-submit" type="submit">Создать группу</button>
+        </form>
+    {% endif %}
+    <div class="titles-and-form">
+        {% for message in messages %}
+        <p class="messages" onload="hideMessages()">{{message}}</p>
+        {% endfor %}
+        <div class="group-title">Группы</div>
+    </div>
+
+
+    <div class="groups-container">
+        {% for group in groups %}
+            <a href="{% url 'works' id=group.id %}">
+                <div class="component">
+                    <div class="content">
+                        <div class="title">{{ group.title }}</div>
+                        <div class="count"> В группе: {{ group.profile_set.count }}</div>
+                        <div class="creator">Создатель: {{ group.creator}}</div>
+                        <form action="{% url 'leave' pk=group.pk%}" class="leave-group">
+                            {% csrf_token %}
+                            <button type="submit" class="button-submit leave-btn">Покинуть группу</button>
+                        </form>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    {% load static %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="{% static 'group/js/groups.js' %}"></script>
+{% endblock %}

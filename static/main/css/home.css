@@ -1,0 +1,77 @@
+.page-name {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.work-container {
+    padding-left: 30px;
+    width: 100%;
+    height: 80px;
+    background-color: #EBE6F1;
+    margin-top: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.work-group {
+    order: 1;
+    width: 20%;
+    height: 100%;
+    font-size: 36px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+}
+
+.work-title-subject {
+    order: 2;
+    width: 35%;
+    height: 100%;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.work-todate {
+    order: 3;
+    width: 20%;
+    height: 100%;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.get-to-group {
+    order: 4;
+    width: 25%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.get-to-group-button{
+    background: rgb(64,199,129);
+    height: 50px;
+    min-width: 160px;
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    transition: 0.2s;
+    border-radius: 5px;
+}
+
+.get-to-group-button:hover { background: rgb(53, 167, 110); }
+.get-to-group-button:active {
+    background: rgb(33,147,90);
+    box-shadow: 0 3px rgb(33,147,90) inset;
+}

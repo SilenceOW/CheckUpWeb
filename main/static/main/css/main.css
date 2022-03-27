@@ -1,0 +1,61 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+}
+
+input[type="text"] {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  margin: 0;
+}
+
+button {
+    -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+    border: 0;
+    border-radius: 0;
+    background: #ccc;
+}
+
+#bg {
+    background-color: #FB68FF;
+    background: linear-gradient(rgba(255, 255, 255, 0.23), rgba(255, 255, 255, 0.23)), url('../images/background_image.png')  no-repeat fixed;
+    background-size: cover
+}
+
+body{
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+main {
+    position: absolute;
+    height: 100%;
+    padding: 2%;
+    width: calc(100% - 316px);
+    min-width: 964px;
+    left: 316px;
+    overflow-y: auto;
+}
+
+main::-webkit-scrollbar {
+  width: 10px;
+}
+
+main::-webkit-scrollbar-track {
+  background-color: #BFBFBF;
+  border-radius: 100px;
+}
+
+main::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  border: 2.5px solid transparent;
+  background-clip: content-box;
+  background-color: #999999;
+}

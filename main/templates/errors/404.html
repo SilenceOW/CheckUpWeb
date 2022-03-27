@@ -1,0 +1,10 @@
+{% include 'main/layout.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'errors/error.css' %}">
+<div class="error">
+    <p>Ошибка 404</p>
+    <a href="{% url 'home' %}">Отправиться на главную страницу</a>
+</div>
+{% endblock %}
